@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <title>தென் இந்திய ராசி கட்டம் - 108 நட்சத்திர பாதங்கள்</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    body { background:#fffaf2;font-family:Latha,sans-serif;margin:0;padding:0;}
+    header {background:linear-gradient(to right,#ffe2c1,#ffe7d1);padding:7px 0;text-align:center;}
+    h2 {color:#b4530e;font-size:17px;margin:0;padding:6px;font-weight:700;}
+    .button-set {
+      display:flex;flex-wrap:wrap;justify-content:center;gap:5px;
+      margin:0 0 16px 0;
+      padding:5px;
+      background:#fff9f4;
+      border-radius:6px;
+      box-shadow:0 1px 0 #ffd6a033;
+    }
+    .button-set button {padding:5px 10px;font-size:13px;cursor:pointer;border-radius:6px;border:1px solid #c9b199;background:#fff;}
+    .button-set button:hover {background:#ffe6bc;}
+    /* South chart perimeter grid */
+    .south-chart {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      grid-template-rows: repeat(4,1fr);
+      grid-template-areas:
+        "r12 r01 r02 r03"
+        "r11 xx  xx  r04"
+        "r10 xx  xx  r05"
+        "r09 r08 r07 r06";
+      gap: 9px;
+      max-width:660px;
+      margin:0 auto 0;
+      padding:0;
+      min-height:510px;
+      background:transparent;
+    }
+    .box {
+      background: #fff6dc;
+      border: 1.7px solid #e1ac67;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(175,140,65,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-width:0;
+      min-height:0;
+      /* height:135px; */
+      /* Remove fixed height so all padas show */
+      font-size:13px;
+      color: #502e08;
+      padding:6px 4px 6px 4px;
+      justify-content:flex-start;
+    }
+    .rasi-title {
+      font-weight:bold;
+      color:#be751e;
+      font-size:15.3px;
+      margin-bottom:1px;
+      text-align:center;
+      justify-content:center;
+      align-items:center;
+      display:flex;
+      flex-direction:column;
+    }
+    .rasi-num-badge {
+      display:inline-block;background:#fbe1b2;color:#8a5206;
+      border-radius:50%;width:23px;height:23px;
+      font-size:13.5px;font-weight:700;text-align:center;line-height:23px;
+      margin-bottom:3px;vertical-align:middle;
+    }
+    .line {
+      line-height:1.35; display: flex; align-items: center;
+      font-size:12.5px;margin-bottom:0.1em;padding:1px 0;
+      border-radius:3px;
+      width:100%;
+    }
+    .pada-number {font-size:11px;font-weight:700;width:16px;height:16px;
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;border:1px solid #eccd99;background:#fff;color:#ce8402;margin-right:2.5px;}
+    .highlight-orange {background:#ffe7ab !important;}
+    /* Grid area assignment */
+    .r01 { grid-area: r01; }.r02 {grid-area: r02;}.r03 {grid-area: r03;}.r04 {grid-area:r04;}
+    .r05 { grid-area: r05; }.r06 {grid-area: r06;}.r07 {grid-area: r07;}.r08 {grid-area:r08;}
+    .r09 { grid-area: r09; }.r10 {grid-area: r10;}.r11 {grid-area: r11;}.r12 {grid-area:r12;}
+    .empty { background:none!important; border:none!important;}
+    /* Trikonam/kendram highlight */
+    .trikona1 { box-shadow:0 0 0 3px #50aefc !important;}
+    .trikona2 { box-shadow:0 0 0 3px #fd7e14 !important;}
+    .trikona3 { box-shadow:0 0 0 3px #43c984 !important;}
+    .trikona4 { box-shadow:0 0 0 3px #a253ee !important;}
+    .kendra1 { box-shadow:0 0 0 3px #ff6384 !important;}
+    .kendra2 { box-shadow:0 0 0 3px #ffc33b !important;}
+    .kendra3 { box-shadow:0 0 0 3px #36b0ee !important;}
+    @media (max-width: 640px) {
+      .south-chart {grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(6,1fr);
+        grid-template-areas:
+        "r01 r02"
+        "r03 r04"
+        "r05 r06"
+        "r07 r08"
+        "r09 r10"
+        "r11 r12";
+      min-height:0;}
+      .box {height:auto;}
+    }
+    #explanationBox {
+      max-width: 590px;
+      margin:14px auto 18px auto;
+      padding:10px 14px 10px 13px;
+      background: #fff8ef;
+      border-radius: 9px;
+      border: 1.2px solid #c5a178;
+      font-size: 14.3px;
+      color: #7a3e0d;
+      box-shadow: 0 4px 10px #f7e3b879;
+      display: none;
+      min-height:30px;
+      overflow-y:auto;
+      max-height:80px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>🌟 தென் இந்திய ராசி கட்டம் - 108 நட்சத்திர பாதங்கள் 🌟</h2>
+  </header>
+  <div class="button-set">
+    <button onclick="highlightTrikonam()">🔺 திரிகோணம்</button>
+    <button onclick="highlightKendram()">⏹️ கெந்திரம்</button>
+    <button onclick="highlightPadas(pushkaraPadas, 'புஷ்கர நவாம்சம்: குறிப்பிட்ட பாதங்கள் ஆரோக்கியம், வளம், நல்ல சக்தி தரும்.')">🔵 புஷ்கர நவாம்சம்</button>
+    <button onclick="highlightPadas(vargottamaPadas,'வற்கோத்தம பாதம்: ராசிக்கும் நவாம்சத்துக்கும் ஒரே பாதம் பலம் பெறும் இடம்.')">🟣 வர்கோத்தம பாதம்</button>
+    <button onclick="highlightPadas(kandantharaPadas,'கண்டாந்த நட்சத்திர பாதங்கள்: வாழ்க்கையில் பெரும் மாற்றங்களை குறிக்கும்.')">🔵 கண்டாந்த நட்சத்திரம்</button>
+    <button onclick="highlightPadas(grahaPadas.sun,'சூரியன் - கிரகம் சார்ந்த பாதங்கள்.')">☀️ சூரியன்</button>
+    <button onclick="highlightPadas(grahaPadas.moon,'சந்திரன் - கிரகம் சார்ந்த பாதங்கள்.')">🌙 சந்திரன்</button>
+    <button onclick="highlightPadas(grahaPadas.mars,'செவ்வாய் - கிரகம் சார்ந்த பாதங்கள்.')">🔥 செவ்வாய்</button>
+    <button onclick="highlightPadas(grahaPadas.mercury,'புதன் - கிரகம் சார்ந்த பாதங்கள்.')">📗 புதன்</button>
+    <button onclick="highlightPadas(grahaPadas.jupiter,'குரு - கிரகம் சார்ந்த பாதங்கள்.')">📘 குரு</button>
+    <button onclick="highlightPadas(grahaPadas.venus,'சுக்கிரன் - கிரகம் சார்ந்த பாதங்கள்.')">💎 சுக்கிரன்</button>
+    <button onclick="highlightPadas(grahaPadas.saturn,'சனி - கிரகம் சார்ந்த பாதங்கள்.')">🪐 சனி</button>
+    <button onclick="highlightPadas(grahaPadas.rahu,'ராகு - கிரகம் சார்ந்த பாதங்கள்.')">🌪️ ராகு</button>
+    <button onclick="highlightPadas(grahaPadas.ketu,'கேது - கிரகம் சார்ந்த பாதங்கள்.')">🌟 கேது</button>
+  </div>
+  <!-- Chart -->
+  <div class="south-chart" id="rasiChart">
+    <div class="box r10"></div>
+    <div class="box r11"></div>
+    <div class="box r12"></div>
+    <div class="box r01"></div>
+    <div class="box r09"></div>
+    <div class="empty"></div>
+    <div class="empty"></div>
+    <div class="box r02"></div>
+    <div class="box r08"></div>
+    <div class="empty"></div>
+    <div class="empty"></div>
+    <div class="box r03"></div>
+    <div class="box r07"></div>
+    <div class="box r06"></div>
+    <div class="box r05"></div>
+    <div class="box r04"></div>
+  </div>
+  <div id="explanationBox"></div>
+<script>
+    // --- Data
+    const rasiDetails = [
+      { num:1, name:"மேஷம்",padas:["அஸ்வினி - 1","அஸ்வினி - 2","அஸ்வினி - 3","அஸ்வினி - 4","பரணி - 1","பரணி - 2","பரணி - 3","பரணி - 4","கார்த்திகை - 1"] },
+      { num:2, name:"ரிஷபம்",padas:["கார்த்திகை - 2","கார்த்திகை - 3","கார்த்திகை - 4","ரோகிணி - 1","ரோகிணி - 2","ரோகிணி - 3","ரோகிணி - 4","மிருகசீரிடம் - 1","மிருகசீரிடம் - 2"] },
+      { num:3, name:"மிதுனம்",padas:["மிருகசீரிடம் - 3","மிருகசீரிடம் - 4","திருவாதிரை - 1","திருவாதிரை - 2","திருவாதிரை - 3","திருவாதிரை - 4","புனர்பூசம் - 1","புனர்பூசம் - 2","புனர்பூசம் - 3"] },
+      { num:4, name:"கடகம்",padas:["புனர்பூசம் - 4","பூசம் - 1","பூசம் - 2","பூசம் - 3","பூசம் - 4","ஆயில்யம் - 1","ஆயில்யம் - 2","ஆயில்யம் - 3","ஆயில்யம் - 4"] },
+      { num:5, name:"சிம்மம்",padas:["மகம் - 1","மகம் - 2","மகம் - 3","மகம் - 4","பூரம் - 1","பூரம் - 2","பூரம் - 3","பூரம் - 4","உத்திரம் - 1"] },
+      { num:6, name:"கன்னி",padas:["உத்திரம் - 2","உத்திரம் - 3","உத்திரம் - 4","அஸ்தம் - 1","அஸ்தம் - 2","அஸ்தம் - 3","அஸ்தம் - 4","சித்திரை - 1","சித்திரை - 2"] },
+      { num:7, name:"துலாம்",padas:["சித்திரை - 3","சித்திரை - 4","ஸ்வாதி - 1","ஸ்வாதி - 2","ஸ்வாதி - 3","ஸ்வாதி - 4","விசாகம் - 1","விசாகம் - 2","விசாகம் - 3"] },
+      { num:8, name:"விருச்சிகம்",padas:["விசாகம் - 4","அனுஷம் - 1","அனுஷம் - 2","அனுஷம் - 3","அனுஷம் - 4","கேட்டை - 1","கேட்டை - 2","கேட்டை - 3","கேட்டை - 4"] },
+      { num:9, name:"தனுசு",padas:["மூலம் - 1","மூலம் - 2","மூலம் - 3","மூலம் - 4","பூராடம் - 1","பூராடம் - 2","பூராடம் - 3","பூராடம் - 4","உத்திராடம் - 1"] },
+      { num:10,name:"மகரம்",padas:["உத்திராடம் - 2","உத்திராடம் - 3","உத்திராடம் - 4","திருவோணம் - 1","திருவோணம் - 2","திருவோணம் - 3","திருவோணம் - 4","அவிட்டம் - 1","அவிட்டம் - 2"] },
+      { num:11,name:"கும்பம்",padas:["அவிட்டம் - 3","அவிட்டம் - 4","சதயம் - 1","சதயம் - 2","சதயம் - 3","சதயம் - 4","பூரட்டாதி - 1","பூரட்டாதி - 2","பூரட்டாதி - 3"] },
+      { num:12,name:"மீனம்",padas:["பூரட்டாதி - 4","உத்திரட்டாதி - 1","உத்திரட்டாதி - 2","உத்திரட்டாதி - 3","உத்திரட்டாதி - 4","ரேவதி - 1","ரேவதி - 2","ரேவதி - 3","ரேவதி - 4"] }
+    ];
+    const pushkaraPadas = [7,9,12,14,24,26,28,30,43,45,48,50,60,62,64,66,79,81,84,86,96,98,100,102];
+    const vargottamaPadas = [1,14,27,28,41,54,55,68,81,82,95,108];
+    const kandantharaPadas = [1,36,37,72,73,108];
+    const grahaPadas = {
+      ketu:    [1,2,3,4,37,38,39,40,73,74,75,76],
+      venus:   [5,6,7,8,41,42,43,44,77,78,79,80],
+      sun:     [9,10,11,12,45,46,47,48,81,82,83,84],
+      moon:    [13,14,15,16,49,50,51,52,85,86,87,88],
+      mars:    [17,18,19,20,53,54,55,56,89,90,91,92],
+      rahu:    [21,22,23,24,57,58,59,60,93,94,95,96],
+      jupiter: [25,26,27,28,61,62,63,64,97,98,99,100],
+      saturn:  [29,30,31,32,65,66,67,68,101,102,103,104],
+      mercury: [33,34,35,36,69,70,71,72,105,106,107,108]
+    };
+    // Trikonam & Kendram groups for box highlight
+    const trikonaGroups = [
+      { nums: [1,5,9],   class: 'trikona1' },
+      { nums: [2,6,10],  class: 'trikona2' },
+      { nums: [3,7,11],  class: 'trikona3' },
+      { nums: [4,8,12],  class: 'trikona4' }
+    ];
+    const kendraGroups = [
+      { nums: [1,4,7,10], class: 'kendra1' },
+      { nums: [2,5,8,11], class: 'kendra2' },
+      { nums: [3,6,9,12], class: 'kendra3' }
+    ];
+    const allBoxClasses = ['trikona1','trikona2','trikona3','trikona4','kendra1','kendra2','kendra3'];
+
+    // Chart drawing
+    const rasiMap = {}; rasiDetails.forEach(r=>rasiMap["r"+("0"+r.num).slice(-2)]=r);
+    let padaGlobal = 1;
+    rasiDetails.forEach(rasi=>{ rasi.padaIdxs = rasi.padas.map(()=>padaGlobal++);});
+    document.querySelectorAll('.south-chart .box').forEach(box => {
+      const className = Array.from(box.classList).find(c=>/^r\d\d$/.test(c));
+      const rasi = rasiMap[className];
+      if (!rasi) { box.innerHTML=''; return;}
+      let html = `<div class="rasi-title"><span class="rasi-num-badge">${rasi.num}</span>${rasi.name}</div>`;
+      rasi.padas.forEach((pada,idx)=>{
+        html += `<div class="line" data-pada-index="${rasi.padaIdxs[idx]}"><span class="pada-number">${idx+1}</span>${pada}</div>`;
+      });
+      box.innerHTML = html;
+      box.setAttribute('data-rasi-num',rasi.num);
+    });
+
+    // Pada highlight
+    function highlightPadas(list,explanation="") {
+      clearBoxHighlights();
+      document.querySelectorAll(".line").forEach(line=>line.classList.remove("highlight-orange"));
+      if(list && list.length) list.forEach(p=>{
+        const el = document.querySelector(`.line[data-pada-index='${p}']`);
+        if(el) el.classList.add("highlight-orange");
+      });
+      showExplanation(explanation);
+    }
+    // Trikonam/Kendram highlight (box only)
+    function clearBoxHighlights() {
+      document.querySelectorAll('.box').forEach(b=>{allBoxClasses.forEach(c=>b.classList.remove(c));});
+    }
+    function highlightTrikonam() {
+      clearBoxHighlights();
+      document.querySelectorAll(".line").forEach(line=>line.classList.remove("highlight-orange"));
+      trikonaGroups.forEach(group => {
+        group.nums.forEach(n=>{
+          let box=document.querySelector(`.box[data-rasi-num="${n}"]`);
+          if(box) box.classList.add(group.class);
+        });
+      });
+      showExplanation(
+        `<b>திரிகோண ராசிகள்:</b>
+        <span style="color:#50aefc;">1,5,9</span>
+        <span style="color:#fd7e14;">2,6,10</span>
+        <span style="color:#43c984;">3,7,11</span>
+        <span style="color:#a253ee;">4,8,12</span>.
+        <hr><div style="font-size:13px;color:#b47908;">[உங்கள் திரிகோண விளக்கம் எழுதலாம்]</div>`
+      );
+    }
+    function highlightKendram() {
+      clearBoxHighlights();
+      document.querySelectorAll(".line").forEach(line=>line.classList.remove("highlight-orange"));
+      kendraGroups.forEach(group => {
+        group.nums.forEach(n=>{
+          let box=document.querySelector(`.box[data-rasi-num="${n}"]`);
+          if(box) box.classList.add(group.class);
+        });
+      });
+      showExplanation(
+        `<b>கெந்திர ராசிகள்:</b>
+        <span style="color:#ff6384;">1,4,7,10</span>
+        <span style="color:#ffc33b;">2,5,8,11</span>
+        <span style="color:#36b0ee;">3,6,9,12</span>.
+        <hr><div style="font-size:13px;color:#b47908;">[உங்கள் கெந்திர விளக்கம் எழுதலாம்]</div>`
+      );
+    }
+    function showExplanation(html) {
+      const exp=document.getElementById('explanationBox');
+      exp.style.display="block";
+      exp.innerHTML=html;
+    }
+</script>
+</body>
+</html>
